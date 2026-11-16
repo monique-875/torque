@@ -1,5 +1,5 @@
 // Funcao unica de fetch usada por todas as paginas
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:3001';
 
 async function apiFetch(caminho, opcoes = {}) {
   const token = localStorage.getItem('token');
