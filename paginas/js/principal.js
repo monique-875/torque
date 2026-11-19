@@ -1,7 +1,5 @@
-// Tela principal [RN04]
 const nome = localStorage.getItem('nome');
 
-// Sem token, volta para o login
 if (!localStorage.getItem('token')) {
   window.location.href = 'index.html';
 }

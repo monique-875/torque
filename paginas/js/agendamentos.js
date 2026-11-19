@@ -1,4 +1,3 @@
-// Tela de agendamentos
 if (!localStorage.getItem('token')) {
   window.location.href = 'index.html';
 }
@@ -7,12 +6,10 @@ const tabelaAgendamentos = document.getElementById('tabelaAgendamentos');
 const campoVeiculo = document.getElementById('campoVeiculo');
 const formAgendamento = document.getElementById('formAgendamento');
 
-// Converte a data do banco (string local, sem timezone) para o formato do input datetime-local
 function paraDatetimeLocal(data) {
   return data.slice(0, 16).replace(' ', 'T');
 }
 
-// Lista os agendamentos ordenados por data, com dados do cliente e do veiculo [RN07]
 async function listarAgendamentos() {
   const resposta = await apiFetch('/agendamentos');
   const agendamentos = await resposta.json();
@@ -35,7 +32,6 @@ async function listarAgendamentos() {
     tabelaAgendamentos.appendChild(linha);
   });
 
-  // Altera a data de um agendamento e salva no banco [RN08]
   document.querySelectorAll('.botaoSalvarData').forEach((botao) => {
     botao.addEventListener('click', async () => {
       const id = botao.dataset.id;
@@ -50,7 +46,6 @@ async function listarAgendamentos() {
     });
   });
 
-  // Remove o agendamento escolhido
   document.querySelectorAll('.botaoExcluir').forEach((botao) => {
     botao.addEventListener('click', async () => {
       await apiFetch(`/agendamentos/${botao.dataset.id}`, { method: 'DELETE' });
@@ -59,7 +54,6 @@ async function listarAgendamentos() {
   });
 }
 
-// Preenche o select de veiculos usado no cadastro de agendamento
 async function carregarVeiculos() {
   const resposta = await apiFetch('/veiculos');
   const veiculos = await resposta.json();
@@ -72,7 +66,6 @@ async function carregarVeiculos() {
   });
 }
 
-// Cadastra um agendamento associado a um veiculo
 formAgendamento.addEventListener('submit', async (evento) => {
   evento.preventDefault();
 

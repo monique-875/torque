@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>Oficina - Veiculos</title>
-  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="container">
+  <div>
     <h1>Veiculos</h1>
-    <nav><a href="principal.html">Voltar</a></nav>
+    <nav><a href="/principal">Voltar</a></nav>
 
-    <table>
+    <table border="1">
       <thead>
         <tr>
           <th>Placa</th>
@@ -21,25 +20,48 @@
           <th></th>
         </tr>
       </thead>
-      <tbody id="tabelaVeiculos"></tbody>
+      <tbody>
+        {{#veiculos}}
+        <tr>
+          <td>{{placa}}</td>
+          <td>{{marca}}</td>
+          <td>{{modelo}}</td>
+          <td>{{ano}}</td>
+          <td>{{cliente_nome}}</td>
+          <td>
+            <form action="/veiculos" method="get">
+              <input type="hidden" name="editar" value="{{id}}" />
+              <button type="submit">Editar</button>
+            </form>
+            <form action="/veiculos/{{id}}" method="post">
+              <input type="hidden" name="_method" value="DELETE" />
+              <button type="submit">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {{/veiculos}}
+        {{^veiculos}}
+        <tr><td colspan="6">Nenhum veiculo cadastrado.</td></tr>
+        {{/veiculos}}
+      </tbody>
     </table>
 
-    <h2 id="tituloFormulario">Cadastrar veiculo</h2>
-    <form id="formVeiculo">
-      <input type="hidden" id="campoId" />
-      <select id="campoCliente" required>
+    <h2>{{#editando}}Editar veiculo{{/editando}}{{^editando}}Cadastrar veiculo{{/editando}}</h2>
+    <form action="{{acaoFormulario}}" method="post">
+      {{#editando}}<input type="hidden" name="_method" value="PUT" />{{/editando}}
+      <select name="cliente_id" required>
         <option value="">Selecione o cliente</option>
+        {{#clientes}}
+        <option value="{{id}}" {{#selecionado}}selected{{/selecionado}}>{{nome}}</option>
+        {{/clientes}}
       </select>
-      <input type="text" id="campoPlaca" placeholder="Placa" required />
-      <input type="text" id="campoMarca" placeholder="Marca" />
-      <input type="text" id="campoModelo" placeholder="Modelo" />
-      <input type="number" id="campoAno" placeholder="Ano" />
-      <button type="submit" id="botaoSalvarVeiculo">Cadastrar</button>
+      <input type="text" name="placa" value="{{formulario.placa}}" placeholder="Placa" required />
+      <input type="text" name="marca" value="{{formulario.marca}}" placeholder="Marca" />
+      <input type="text" name="modelo" value="{{formulario.modelo}}" placeholder="Modelo" />
+      <input type="number" name="ano" value="{{formulario.ano}}" placeholder="Ano" />
+      <button type="submit">{{#editando}}Salvar{{/editando}}{{^editando}}Cadastrar{{/editando}}</button>
     </form>
-    <p id="mensagemErro" class="erro"></p>
+    {{#erro}}<p>{{erro}}</p>{{/erro}}
   </div>
-
-  <script src="js/api.js"></script>
-  <script src="js/veiculos.js"></script>
 </body>
 </html>

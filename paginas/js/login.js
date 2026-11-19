@@ -1,4 +1,3 @@
-// Tela de login
 const formLogin = document.getElementById('formLogin');
 const mensagemErro = document.getElementById('mensagemErro');
 
@@ -9,7 +8,6 @@ formLogin.addEventListener('submit', async (evento) => {
   const email = document.getElementById('email').value;
   const senha = document.getElementById('senha').value;
 
-  // Chamada direta (sem apiFetch) porque aqui ainda nao existe token
   try {
     const resposta = await fetch(API_URL + '/login', {
       method: 'POST',
@@ -19,7 +17,6 @@ formLogin.addEventListener('submit', async (evento) => {
 
     const dados = await resposta.json();
 
-    // Mostra a mensagem de erro na tela quando a autenticacao falha [RN02]
     if (!resposta.ok) {
       mensagemErro.textContent = dados.mensagem || 'Nao foi possivel fazer login.';
       return;

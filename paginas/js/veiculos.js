@@ -1,4 +1,3 @@
-// Tela de veiculos
 if (!localStorage.getItem('token')) {
   window.location.href = 'index.html';
 }
@@ -10,7 +9,6 @@ const formVeiculo = document.getElementById('formVeiculo');
 const tituloFormulario = document.getElementById('tituloFormulario');
 const botaoSalvarVeiculo = document.getElementById('botaoSalvarVeiculo');
 
-// Lista os veiculos cadastrados
 async function listarVeiculos() {
   const resposta = await apiFetch('/veiculos');
   const veiculos = await resposta.json();
@@ -36,7 +34,6 @@ async function listarVeiculos() {
     botao.addEventListener('click', () => preencherFormulario(veiculos, botao.dataset.id));
   });
 
-  // Remove o veiculo escolhido
   document.querySelectorAll('.botaoExcluir').forEach((botao) => {
     botao.addEventListener('click', async () => {
       await apiFetch(`/veiculos/${botao.dataset.id}`, { method: 'DELETE' });
@@ -45,7 +42,6 @@ async function listarVeiculos() {
   });
 }
 
-// Preenche o formulario para edicao do veiculo escolhido
 function preencherFormulario(veiculos, id) {
   const veiculo = veiculos.find((item) => String(item.id) === String(id));
 
@@ -60,7 +56,6 @@ function preencherFormulario(veiculos, id) {
   botaoSalvarVeiculo.textContent = 'Salvar';
 }
 
-// Preenche o select de clientes usado no cadastro de veiculo
 async function carregarClientes() {
   const resposta = await apiFetch('/clientes');
   const clientes = await resposta.json();
@@ -73,7 +68,6 @@ async function carregarClientes() {
   });
 }
 
-// Cadastra ou atualiza um veiculo associado a um cliente [RN09]
 formVeiculo.addEventListener('submit', async (evento) => {
   evento.preventDefault();
   mensagemErro.textContent = '';

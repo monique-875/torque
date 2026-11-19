@@ -3,20 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <title>Oficina - Principal</title>
-  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1 id="saudacao">Ola!</h1>
+  <div>
+    <h1>Ola, {{nome}}!</h1>
     <nav>
-      <a href="clientes.html">Clientes</a>
-      <a href="veiculos.html">Veiculos</a>
-      <a href="agendamentos.html">Agendamentos</a>
+      <a href="/clientes">Clientes</a>
+      <a href="/veiculos">Veiculos</a>
+      <a href="/agendamentos">Agendamentos</a>
     </nav>
-    <p><button id="botaoSair" class="secundario">Sair</button></p>
+    <form action="/sair" method="post">
+      <button type="submit">Sair</button>
+    </form>
   </div>
-
-  <script src="js/api.js"></script>
-  <script src="js/principal.js"></script>
 </body>
 </html>

@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>Oficina - Agendamentos</title>
-  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="container">
+  <div>
     <h1>Agendamentos</h1>
-    <nav><a href="principal.html">Voltar</a></nav>
+    <p><a href="/principal">Voltar</a></p>
 
-    <table>
+    <table border="1">
       <thead>
         <tr>
           <th>Data</th>
@@ -21,21 +20,44 @@
           <th></th>
         </tr>
       </thead>
-      <tbody id="tabelaAgendamentos"></tbody>
+      <tbody>
+        {{#agendamentos}}
+        <tr>
+          <td>{{data_br}}</td>
+          <td>{{servico}}</td>
+          <td>{{placa}}</td>
+          <td>{{cliente_nome}}</td>
+
+          <td>
+            <form method="post"action="/agendamentos/{{id}}" >
+              <input type="hidden" name="_method" value="PUT" />
+              <input type="datetime-local" name="data_agendamento" value="{{data_input}}" required />
+              <button>Salvar</button>
+            </form>
+          </td>
+          <td>
+            <form method="post" action="/agendamentos/{{id}}" >
+              <input type="hidden" name="_method" value="DELETE" />
+              <button>Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {{/agendamentos}}
+      </tbody>
     </table>
 
     <h2>Cadastrar agendamento</h2>
-    <form id="formAgendamento">
-      <select id="campoVeiculo" required>
+    <form method="post"action="/agendamentos">
+      <select name="veiculo_id" required>
         <option value="">Selecione o veiculo</option>
+        {{#veiculos}}
+        <option value="{{id}}">{{placa}} - {{marca}} - {{modelo}}</option>
+        {{/veiculos}}
       </select>
-      <input type="datetime-local" id="campoData" required />
-      <input type="text" id="campoServico" placeholder="Servico" />
-      <button type="submit">Cadastrar</button>
+      <input type="datetime-local" name="data_agendamento" required />
+      <input type="text" name="servico" placeholder="Servico" />
+      <button >Cadastrar</button>
     </form>
   </div>
-
-  <script src="js/api.js"></script>
-  <script src="js/agendamentos.js"></script>
 </body>
 </html>

@@ -3,19 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <title>Oficina - Clientes</title>
-  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="container">
+  <div>
     <h1>Clientes</h1>
-    <nav><a href="principal.html">Voltar</a></nav>
+    <nav><a href="/principal">Voltar</a></nav>
 
-    <div class="busca">
-      <input type="text" id="termoBusca" placeholder="Buscar por nome" />
-      <button id="botaoBuscar">Buscar</button>
-    </div>
+    <form action="/clientes" method="get">
+      <input type="text" name="busca" value="{{busca}}" placeholder="Buscar por nome" />
+      <button type="submit">Buscar</button>
+    </form>
 
-    <table>
+    {{#avisoCpf}}
+    <p>Alguns CPFs nao puderam ser descriptografados. Verifique a chave ou redigite o CPF correto ao editar o cliente.</p>
+    {{/avisoCpf}}
+
+    <table border="1">
       <thead>
         <tr>
           <th>Nome</th>
@@ -25,30 +28,49 @@
           <th></th>
         </tr>
       </thead>
-      <tbody id="tabelaClientes"></tbody>
+      <tbody>
+        {{#clientes}}
+        <tr>
+          <td>{{nome}}</td>
+          <td>{{cpfExibicao}}</td>
+          <td>{{telefone}}</td>
+          <td>{{email}}</td>
+          <td>
+            <form action="/clientes" method="get">
+              <input type="hidden" name="editar" value="{{id}}" />
+              <button type="submit">Editar</button>
+            </form>
+            <form action="/clientes/{{id}}" method="post">
+              <input type="hidden" name="_method" value="DELETE" />
+              <button type="submit">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {{/clientes}}
+        {{^clientes}}
+        <tr><td colspan="5">Nenhum cliente encontrado.</td></tr>
+        {{/clientes}}
+      </tbody>
     </table>
 
-    <h2>Cadastrar cliente</h2>
-    <form id="formCadastrar">
-      <input type="text" id="cadastrarNome" placeholder="Nome" required />
-      <input type="text" id="cadastrarCpf" placeholder="CPF" required />
-      <input type="text" id="cadastrarTelefone" placeholder="Telefone" />
-      <input type="email" id="cadastrarEmail" placeholder="E-mail" />
-      <button type="submit">Cadastrar</button>
+    <h2>{{nomeFormulario}}</h2>
+    <form action="{{acaoFormulario}}" method="post">
+      {{#clienteEdicao}}<input type="hidden" name="_method" value="PUT" />{{/clienteEdicao}}
+      {{#clienteEdicao}}
+      <input type="text" name="nome" value="{{nome}}" placeholder="Nome" required />
+      <input type="text" name="cpf" value="{{cpf}}" placeholder="CPF" required />
+      <input type="text" name="telefone" value="{{telefone}}" placeholder="Telefone" />
+      <input type="email" name="email" value="{{email}}" placeholder="E-mail" />
+      {{/clienteEdicao}}
+      {{^clienteEdicao}}
+      <input type="text" name="nome" placeholder="Nome" required />
+      <input type="text" name="cpf" placeholder="CPF" required />
+      <input type="text" name="telefone" placeholder="Telefone" />
+      <input type="email" name="email" placeholder="E-mail" />
+      {{/clienteEdicao}}
+      <button type="submit">{{#clienteEdicao}}Salvar{{/clienteEdicao}}{{^clienteEdicao}}Cadastrar{{/clienteEdicao}}</button>
     </form>
-
-    <h2>Editar cliente</h2>
-    <form id="formEditar">
-      <input type="hidden" id="editarId" />
-      <input type="text" id="editarNome" placeholder="Nome" required />
-      <input type="text" id="editarCpf" placeholder="CPF" required />
-      <input type="text" id="editarTelefone" placeholder="Telefone" />
-      <input type="email" id="editarEmail" placeholder="E-mail" />
-      <button type="submit">Salvar</button>
-    </form>
+    {{#erro}}<p>{{erro}}</p>{{/erro}}
   </div>
-
-  <script src="js/api.js"></script>
-  <script src="js/clientes.js"></script>
 </body>
 </html>

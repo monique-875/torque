@@ -1,4 +1,3 @@
-// Funcao unica de fetch usada por todas as paginas
 const API_URL = 'http://localhost:3001';
 
 async function apiFetch(caminho, opcoes = {}) {
@@ -13,7 +12,6 @@ async function apiFetch(caminho, opcoes = {}) {
     },
   });
 
-  // Sem token valido, volta para o login
   if (resposta.status === 401) {
     localStorage.removeItem('token');
     localStorage.removeItem('nome');

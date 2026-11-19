@@ -7,7 +7,7 @@ de uma oficina mecanica, com protecao do CPF (LGPD) e login com token JWT.
 
 ```
 database/           script.sql (gerado pelo backend)
-backend/             API Node + Express (MVC)
+backend/             Node + Express, rotas declaradas em src/app.js
 frontend-html/       HTML, CSS e JS puros
 frontend-react/      React + Vite
 docs/                requisitos.md e der.md
@@ -31,7 +31,13 @@ oficina-exercicio/   copia do projeto com TODOs para o aluno praticar
    npm run gerar-script
    ```
 
-## 2. Backend
+   Para gerar apenas o hash da senha de teste e os CPFs criptografados:
+
+   ```bash
+   npm run gerar-valores
+   ```
+
+## 2. Aplicacao Mustache e API
 
 ```bash
 cd backend
@@ -40,14 +46,15 @@ npm install
 npm start
 ```
 
-A API sobe em `http://localhost:3000`.
+A aplicacao com paginas renderizadas por Mustache e a API sobem juntas em
+`http://localhost:3000`. Acesse `/` para entrar; depois do login, clientes,
+veiculos e agendamentos sao carregados pelo servidor. A sessao usa um cookie
+HTTP-only e as paginas continuam protegidas pelo JWT.
 
-## 3. Frontend HTML puro
+Os endpoints JSON estao disponiveis em `/api/login`, `/api/clientes`,
+`/api/veiculos` e `/api/agendamentos`.
 
-Abra `frontend-html/index.html` direto no navegador (ou sirva a pasta com
-qualquer servidor estatico). A API precisa estar rodando.
-
-## 4. Frontend React
+## 3. Frontend React
 
 ```bash
 cd frontend-react

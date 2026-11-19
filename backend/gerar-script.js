@@ -1,8 +1,4 @@
-// Gera o arquivo database/script.sql
-//
-// O CPF criptografado e a senha com hash nao podem ser escritos a mao no SQL,
-// por isso este script usa a mesma chave do .env (utils/cripto.js) e o bcrypt
-// para gerar os valores corretos e montar o arquivo .sql pronto.
+
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
@@ -15,10 +11,7 @@ const cpf1 = criptografarCpf('11122233344');
 const cpf2 = criptografarCpf('22233344455');
 const cpf3 = criptografarCpf('33344455566');
 
-const sql = `-- Script gerado automaticamente por gerar-script.js
--- Nao edite o CPF ou a senha a mao: use "npm run gerar-script" no backend
-
-CREATE DATABASE IF NOT EXISTS oficina;
+const sql = `CREATE DATABASE IF NOT EXISTS oficina;
 USE oficina;
 
 CREATE TABLE usuarios (
@@ -54,27 +47,21 @@ CREATE TABLE agendamentos (
   FOREIGN KEY (veiculo_id) REFERENCES veiculos(id)
 );
 
--- RN01: pelo menos 3 registros em cada tabela
-
--- Usuario de teste: admin@oficina.com / 123456
 INSERT INTO usuarios (nome, email, senha) VALUES
   ('Administrador', 'admin@oficina.com', '${senhaHash}'),
   ('Carlos Mecanico', 'carlos@oficina.com', '${senhaHash}'),
   ('Fernanda Atendente', 'fernanda@oficina.com', '${senhaHash}');
 
--- CPF salvo criptografado [RN03]
 INSERT INTO clientes (nome, cpf, telefone, email) VALUES
   ('Joao da Silva', '${cpf1}', '(11) 90000-1111', 'joao.silva@email.com'),
   ('Maria Souza', '${cpf2}', '(11) 90000-2222', 'maria.souza@email.com'),
   ('Pedro Oliveira', '${cpf3}', '(11) 90000-3333', 'pedro.oliveira@email.com');
 
--- Cada veiculo associado a um cliente [RN09]
 INSERT INTO veiculos (cliente_id, placa, marca, modelo, ano) VALUES
   (1, 'ABC1D23', 'Volkswagen', 'Gol', 2018),
   (2, 'DEF4E56', 'Fiat', 'Palio', 2015),
   (3, 'GHI7F89', 'Chevrolet', 'Onix', 2021);
 
--- Datas fora de ordem para provar que a ordenacao funciona [RN07]
 INSERT INTO agendamentos (veiculo_id, data_agendamento, servico) VALUES
   (2, '2026-11-05 09:00:00', 'Troca de oleo'),
   (1, '2026-10-20 14:30:00', 'Alinhamento e balanceamento'),

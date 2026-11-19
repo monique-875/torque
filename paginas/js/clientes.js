@@ -1,4 +1,3 @@
-// Tela de clientes
 if (!localStorage.getItem('token')) {
   window.location.href = 'index.html';
 }
@@ -7,7 +6,6 @@ const tabelaClientes = document.getElementById('tabelaClientes');
 const formCadastrar = document.getElementById('formCadastrar');
 const formEditar = document.getElementById('formEditar');
 
-// Desenha a tabela com os clientes recebidos
 function desenharTabela(clientes) {
   tabelaClientes.innerHTML = '';
 
@@ -30,7 +28,6 @@ function desenharTabela(clientes) {
     botao.addEventListener('click', () => preencherFormulario(clientes, botao.dataset.id));
   });
 
-  // Remove o cliente escolhido
   document.querySelectorAll('.botaoExcluir').forEach((botao) => {
     botao.addEventListener('click', async () => {
       await apiFetch(`/clientes/${botao.dataset.id}`, { method: 'DELETE' });
@@ -39,14 +36,12 @@ function desenharTabela(clientes) {
   });
 }
 
-// Busca os clientes na API, com ou sem termo de busca [RN05]
 async function buscarClientes(termo = '') {
   const resposta = await apiFetch(`/clientes?busca=${encodeURIComponent(termo)}`);
   const clientes = await resposta.json();
   desenharTabela(clientes);
 }
 
-// Preenche o formulario de edicao com os dados do cliente escolhido
 function preencherFormulario(clientes, id) {
   const cliente = clientes.find((item) => String(item.id) === String(id));
   document.getElementById('editarId').value = cliente.id;
@@ -60,7 +55,6 @@ document.getElementById('botaoBuscar').addEventListener('click', () => {
   buscarClientes(document.getElementById('termoBusca').value);
 });
 
-// Cadastra um novo cliente [RN03]
 formCadastrar.addEventListener('submit', async (evento) => {
   evento.preventDefault();
 
@@ -76,7 +70,6 @@ formCadastrar.addEventListener('submit', async (evento) => {
   buscarClientes();
 });
 
-// Salva a edicao do cliente [RN06]
 formEditar.addEventListener('submit', async (evento) => {
   evento.preventDefault();
 

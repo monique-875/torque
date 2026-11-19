@@ -1,4 +1,3 @@
-// Conexao com o banco de dados MySQL
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 

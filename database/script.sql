@@ -1,5 +1,4 @@
--- Script gerado automaticamente por gerar-script.js
--- Nao edite o CPF ou a senha a mao: use "npm run gerar-script" no backend
+
 
 CREATE DATABASE IF NOT EXISTS oficina;
 USE oficina;

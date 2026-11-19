@@ -1,8 +1,5 @@
-// Repository do agendamento: so executa SQL, sem regra de negocio aqui
 const db = require('../config/db');
 
-// Lista os agendamentos com os dados do veiculo e do cliente,
-// ordenados pela data do agendamento [RN07]
 async function listarTodos() {
   const [linhas] = await db.query(
     `SELECT
@@ -26,12 +23,10 @@ async function listarTodos() {
   return linhas;
 }
 
-// Altera a data de um agendamento [RN08]
 async function atualizarData(id, novaData) {
   await db.query('UPDATE agendamentos SET data_agendamento = ? WHERE id = ?', [novaData, id]);
 }
 
-// Insere um novo agendamento associado ao veiculo recebido
 async function cadastrar(veiculoId, dataAgendamento, servico) {
   const [resultado] = await db.query(
     'INSERT INTO agendamentos (veiculo_id, data_agendamento, servico) VALUES (?, ?, ?)',
@@ -40,7 +35,6 @@ async function cadastrar(veiculoId, dataAgendamento, servico) {
   return resultado.insertId;
 }
 
-// Remove um agendamento
 async function excluir(id) {
   await db.query('DELETE FROM agendamentos WHERE id = ?', [id]);
 }
